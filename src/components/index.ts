@@ -1,2 +1,1 @@
-// Shared component exports will live here
-
+// 공용 컴포넌트 export는 필요해질 때 이 파일에서 한 번에 모은다.

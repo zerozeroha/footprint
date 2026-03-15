@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/src/lib/gsap";
 
+// 화면에 남는 footprint 한 개의 데이터다.
 type Footprint = {
   id: number;
   x: number;
@@ -10,13 +11,14 @@ type Footprint = {
   rotation: number;
 };
 
+// 발자국 효과 전체 동작을 조절하는 상수들이다.
 const MAX_FOOTPRINTS = 40;
-const MIN_DISTANCE = 24; // px between footprints
-
-const FOOTPRINT_FADE_DURATION = 0.8; // seconds
+const MIN_DISTANCE = 24;
+const FOOTPRINT_FADE_DURATION = 0.8;
 
 let globalId = 0;
 
+// 마우스 이동을 따라 짧게 사라지는 발자국 흔적을 만든다.
 const FootprintTrail = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
@@ -25,10 +27,10 @@ const FootprintTrail = () => {
   const rafRef = useRef<number | null>(null);
   const pendingPosRef = useRef<{ x: number; y: number } | null>(null);
 
-  // Map for DOM element refs to trigger GSAP animations
+  // 각 footprint DOM에 접근해 GSAP fade-out을 걸기 위한 ref map이다.
   const footprintElsRef = useRef<Map<number, HTMLDivElement | null>>(new Map());
 
-  // Mouse listener -> store latest position
+  // 마우스 좌표를 받아 일정 거리 이상 움직였을 때만 footprint를 추가한다.
   useEffect(() => {
     const handleMove = (event: MouseEvent) => {
       pendingPosRef.current = { x: event.clientX, y: event.clientY };
@@ -53,6 +55,7 @@ const FootprintTrail = () => {
         const dy = y - last.y;
         const dist = Math.hypot(dx, dy);
 
+        // 너무 촘촘하게 찍히지 않도록 최소 이동 거리를 둔다.
         if (dist < MIN_DISTANCE) {
           return;
         }
@@ -82,6 +85,7 @@ const FootprintTrail = () => {
       });
     };
 
+    // mousemove마다 바로 setState하지 않고 rAF로 묶어 부하를 줄인다.
     window.addEventListener("mousemove", handleMove);
 
     return () => {
@@ -92,13 +96,12 @@ const FootprintTrail = () => {
     };
   }, []);
 
-  // Trigger fade-out when new footprints appear
+  // 새 footprint가 생기면 바로 서서히 사라지는 애니메이션을 건다.
   useEffect(() => {
     footprints.forEach((footprint) => {
       const el = footprintElsRef.current.get(footprint.id);
       if (!el) return;
 
-      // Start from visible state, then fade and scale out
       gsap.fromTo(
         el,
         { autoAlpha: 0.4, scale: 1 },
@@ -133,7 +136,7 @@ const FootprintTrail = () => {
             transform: `translate(-50%, -50%) rotate(${fp.rotation}deg)`,
           }}
         >
-          {/* Placeholder footprint shape; swap to an inline SVG if desired */}
+          {/* 필요하면 나중에 SVG 발자국으로 교체할 수 있는 단순 placeholder다. */}
           <div className="h-full w-full rounded-full bg-gradient-to-b from-white to-white/10" />
         </div>
       ))}
@@ -142,4 +145,3 @@ const FootprintTrail = () => {
 };
 
 export default FootprintTrail;
-
