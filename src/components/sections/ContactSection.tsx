@@ -4,7 +4,7 @@ import Reveal from "@/src/components/common/Reveal";
 export default function ContactSection() {
   return (
     <section id="contact" className="trace-section border-t border-zinc-800 bg-black text-zinc-100">
-      <div className="trace-container max-w-5xl">
+      <div className="trace-container trace-section-box max-w-5xl rounded-[calc(var(--radius-frame)-0.1rem)] px-6 py-8 sm:px-8 sm:py-10">
         <div className="space-y-5">
           <Reveal
             as="p"
@@ -38,7 +38,7 @@ export default function ContactSection() {
             {/* 메일 주소 자체를 CTA 버튼처럼 보이게 만든다. */}
             <a
               href="mailto:hello@trace.studio"
-              className="inline-flex min-h-11 items-center gap-3 rounded-full border border-white/14 bg-white/[0.03] px-5 py-2.5 text-[0.72rem] uppercase tracking-[0.26em] text-zinc-200 hover:border-[#e9ff3f]/30 hover:bg-white/[0.05] hover:text-white"
+              className="trace-cta-pill inline-flex min-h-11 items-center gap-3 rounded-full px-5 py-2.5 text-[0.72rem] uppercase tracking-[0.26em] text-zinc-200 transition-colors duration-300 hover:border-white/30 hover:text-white"
             >
               hello@trace.studio
               <span className="h-px w-5 bg-[#e9ff3f]/55" />

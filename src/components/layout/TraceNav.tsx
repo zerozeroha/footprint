@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/src/lib/gsap";
 
-// 데스크톱/모바일 네비가 공통으로 사용하는 메뉴 데이터다.
+// 데스크톱/모바일 네비가 공통으로 사용하는 메뉴 데이터
 const navItems = [
-  // 섹션 라벨과 TRACE 글자를 매핑함.
+  // 섹션 라벨과 TRACE 글자를 매핑
   { letter: "T", label: "Work", href: "#work" },
-  { letter: "R", label: "Featured", href: "#featured" },
-  { letter: "A", label: "About", href: "#about" },
+  { letter: "R", label: "about", href: "#about" },
+  { letter: "A", label: "Featured", href: "#featured" },
   { letter: "C", label: "Contact", href: "#contact" },
   { letter: "E", label: "Experiments", href: "#experiments" },
 ];
@@ -25,7 +25,8 @@ export default function TraceNav() {
     const desktopNav = desktopNavRef.current;
     const mobileNav = mobileNavRef.current;
     if (!desktopNav || !mobileNav) return;
-    const desktopBrand = desktopNav.querySelector<HTMLElement>("[data-trace-brand]");
+    const desktopBrand =
+      desktopNav.querySelector<HTMLElement>("[data-trace-brand]");
     const desktopLabels = Array.from(
       desktopNav.querySelectorAll<HTMLElement>("[data-trace-nav-item]"),
     );
@@ -115,7 +116,9 @@ export default function TraceNav() {
               >
                 <span
                   className={`absolute inset-x-0 -bottom-2 h-px bg-gradient-to-r from-[#e9ff3f]/0 via-white/45 to-[#e9ff3f]/0 transition-transform duration-300 ${
-                    activeSection === item.href.slice(1) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    activeSection === item.href.slice(1)
+                      ? "scale-x-100"
+                      : "scale-x-0 group-hover:scale-x-100"
                   }`}
                 />
                 {item.label}
@@ -131,7 +134,10 @@ export default function TraceNav() {
         className="fixed inset-x-0 top-0 z-40 border-b border-white/8 bg-[rgba(8,8,9,0.88)] backdrop-blur-xl lg:hidden"
       >
         <div className="trace-container flex h-[var(--nav-height)] items-center justify-between">
-          <a href="#top" className="text-[0.72rem] font-medium uppercase tracking-[0.34em] text-zinc-200">
+          <a
+            href="#top"
+            className="text-[0.72rem] font-medium uppercase tracking-[0.34em] text-zinc-200"
+          >
             TRACE
           </a>
           <button
@@ -142,13 +148,21 @@ export default function TraceNav() {
             onClick={() => setMobileMenuOpen((value) => !value)}
           >
             <span className="relative block h-3.5 w-4">
-              <span className={`absolute left-0 top-0 h-px w-4 bg-current transition-transform duration-300 ${mobileMenuOpen ? "translate-y-[6px] rotate-45" : ""}`} />
-              <span className={`absolute left-0 top-[6px] h-px w-4 bg-current transition-opacity duration-300 ${mobileMenuOpen ? "opacity-0" : "opacity-100"}`} />
-              <span className={`absolute left-0 top-3 h-px w-4 bg-current transition-transform duration-300 ${mobileMenuOpen ? "-translate-y-[6px] -rotate-45" : ""}`} />
+              <span
+                className={`absolute left-0 top-0 h-px w-4 bg-current transition-transform duration-300 ${mobileMenuOpen ? "translate-y-[6px] rotate-45" : ""}`}
+              />
+              <span
+                className={`absolute left-0 top-[6px] h-px w-4 bg-current transition-opacity duration-300 ${mobileMenuOpen ? "opacity-0" : "opacity-100"}`}
+              />
+              <span
+                className={`absolute left-0 top-3 h-px w-4 bg-current transition-transform duration-300 ${mobileMenuOpen ? "-translate-y-[6px] -rotate-45" : ""}`}
+              />
             </span>
           </button>
         </div>
-        <div className={`overflow-hidden border-t border-white/6 bg-[rgba(8,8,9,0.94)] transition-[max-height,opacity] duration-300 ${mobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}>
+        <div
+          className={`overflow-hidden border-t border-white/6 bg-[rgba(8,8,9,0.94)] transition-[max-height,opacity] duration-300 ${mobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}
+        >
           {/* 모바일에서는 펼침형 세로 메뉴로 단순하게 처리한다. */}
           <nav className="trace-container flex flex-col gap-5 py-5">
             {navItems.map((item) => (

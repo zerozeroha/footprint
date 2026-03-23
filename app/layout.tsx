@@ -17,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* TRACE 네비게이션은 모든 페이지 위에 공통 레이어로 올라간다. */}
         <TraceNav />
         {children}
       </body>

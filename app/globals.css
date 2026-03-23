@@ -4,6 +4,12 @@
   --color-bg: #050505;
   --color-bg-soft: #0b0b0c;
   --color-bg-elevated: rgba(13, 13, 14, 0.82);
+  --color-panel-top: rgba(86, 86, 92, 0.92);
+  --color-panel-mid: rgba(36, 36, 40, 0.94);
+  --color-panel-bottom: rgba(12, 12, 14, 0.98);
+  --color-panel-stroke: rgba(255, 255, 255, 0.14);
+  --color-panel-highlight: rgba(255, 255, 255, 0.18);
+  --color-panel-shadow-edge: rgba(0, 0, 0, 0.34);
   --color-text: #eef1f4;
   --color-text-muted: #9aa1a8;
   --color-text-soft: #6d737a;
@@ -68,10 +74,18 @@ section[id] {
 }
 
 .trace-frame {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius-frame);
   border: 1px solid var(--color-border);
-  background: rgba(10, 10, 10, 0.56);
-  box-shadow: var(--shadow-float);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(54, 54, 58, 0.3), rgba(8, 8, 10, 0.88)),
+    rgba(10, 10, 10, 0.7);
+  box-shadow:
+    var(--shadow-float),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(20px);
 }
 
@@ -79,27 +93,151 @@ section[id] {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.02);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(72, 72, 77, 0.14), rgba(255, 255, 255, 0.01) 20%, rgba(8, 8, 9, 0.88));
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.7),
     0 0 40px rgba(200, 200, 210, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px);
 }
 
-.trace-sheen::after {
+.trace-panel-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+
+  /* 얇은 기본 테두리 */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  background: linear-gradient(180deg,
+      rgba(58, 58, 62, 0.96) 0%,
+      rgba(28, 28, 32, 0.98) 42%,
+      rgba(14, 14, 16, 1) 100%);
+
+  box-shadow:
+    /* 위/왼쪽 밝은 면 */
+    inset 1px 1px 0 rgba(255, 255, 255, 0.12),
+
+    /* 아래/오른쪽 눌림 */
+    inset -1px -1px 0 rgba(0, 0, 0, 0.5),
+
+    /* 살짝 위쪽 하이라이트 */
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+
+    /* 카드가 떠있는 느낌 */
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    0 28px 60px rgba(0, 0, 0, 0.35);
+}
+
+.trace-panel-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.06) 10%, transparent 22%, transparent 78%, rgba(0, 0, 0, 0.18) 92%, rgba(0, 0, 0, 0.28)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.22));
+  opacity: 0.92;
+}
+
+.trace-panel-slot {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.15), transparent 30%),
+    linear-gradient(180deg, rgba(74, 74, 80, 0.76), rgba(22, 22, 25, 0.98)),
+    #141416;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 2px 6px rgba(255, 255, 255, 0.04),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.22),
+    0 14px 30px rgba(0, 0, 0, 0.24);
+}
+
+.trace-panel-slot::before {
   content: "";
   position: absolute;
-  inset: -20%;
-  background: linear-gradient(
-    110deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.14) 50%,
-    transparent 65%
-  );
-  transform: translateX(-120%);
-  animation: trace-sheen 8s linear infinite;
+  inset: 1px;
+  border-radius: inherit;
   pointer-events: none;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.18), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 18%);
+}
+
+.trace-panel-well {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(58, 60, 65, 0.72), rgba(14, 14, 16, 0.98)),
+    #101012;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.trace-panel-pill {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(circle at 50% -35%, rgba(255, 255, 255, 0.22), transparent 52%),
+    linear-gradient(180deg, rgba(96, 96, 102, 0.92), rgba(28, 28, 31, 0.97)),
+    #1a1a1d;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.05),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.22),
+    0 10px 20px rgba(0, 0, 0, 0.22);
+}
+
+.trace-section-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius-frame) - 0.15rem);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(42, 42, 46, 0.72), rgba(10, 10, 12, 0.94));
+  box-shadow:
+    0 26px 64px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.trace-section-box::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 14%),
+    radial-gradient(circle at 50% -12%, rgba(255, 255, 255, 0.12), transparent 26%);
+}
+
+.trace-cta-pill {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(circle at 50% -35%, rgba(255, 255, 255, 0.22), transparent 52%),
+    linear-gradient(180deg, rgba(98, 98, 104, 0.92), rgba(24, 24, 27, 0.97));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 2px 5px rgba(255, 255, 255, 0.05),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.22),
+    0 18px 30px rgba(0, 0, 0, 0.28);
+}
+
+.trace-sheen::after {
+  content: none;
 }
 
 .trace-card-shadow {
@@ -122,6 +260,7 @@ section[id] {
 }
 
 @keyframes trace-float {
+
   0%,
   100% {
     transform: translate3d(0, 0, 0) rotate(0.001deg);
@@ -133,6 +272,7 @@ section[id] {
 }
 
 @keyframes trace-shimmer {
+
   0%,
   100% {
     opacity: 0.35;
@@ -153,24 +293,26 @@ section[id] {
 }
 
 .work-card-signal-glow {
-  stroke: rgba(226, 231, 236, 0.2);
-  stroke-width: 1.8;
+  stroke: rgba(var(--color-accent-rgb), 0.7);
+  stroke-width: 2.6;
   stroke-linecap: round;
-  filter: blur(3px);
+  filter: blur(6px) drop-shadow(0 0 12px rgba(var(--color-accent-rgb), 0.55));
 }
 
 .work-card-signal-core {
-  stroke: rgba(250, 251, 252, 0.98);
-  stroke-width: 0.7;
+  stroke: rgba(235, 247, 255, 0.98);
+  stroke-width: 1.1;
   stroke-linecap: round;
+  filter: drop-shadow(0 0 7px rgba(var(--color-accent-rgb), 0.5));
 }
 
 .work-card:hover .work-card-signal-glow,
 .work-card:hover .work-card-signal-core {
-  animation: trace-border-signal 1.35s cubic-bezier(0.32, 0.08, 0.2, 1) 1 forwards;
+  animation: trace-border-signal 1.55s cubic-bezier(0.24, 0.08, 0.18, 1) 1 forwards;
 }
 
 @keyframes trace-sheen {
+
   0%,
   72% {
     transform: translateX(-120%);
@@ -196,13 +338,13 @@ section[id] {
 
   8% {
     opacity: 1;
-    stroke-dasharray: 2.4 97.6;
+    stroke-dasharray: 4 96;
     stroke-dashoffset: 97;
   }
 
   86% {
     opacity: 1;
-    stroke-dasharray: 2.4 97.6;
+    stroke-dasharray: 4 96;
     stroke-dashoffset: 2;
   }
 
